@@ -1,12 +1,17 @@
 package com.bookstore.data.model;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Store {
 
     @Id
@@ -20,6 +25,8 @@ public class Store {
     private String contactNo;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
     private List<Book> bookList;
 
     public void addBooks(Book book){
@@ -28,12 +35,5 @@ public class Store {
         }
         bookList.add(book);
     }
-
-
-
-
-
-
-
 
 }

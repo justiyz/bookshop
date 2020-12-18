@@ -44,7 +44,7 @@ class BookRepositoryTest {
     @Transactional
     @Rollback(value = false)
     void saveBookWithStoreObjectTest(){
-        Optional<Store> optionalStore = storeRepository.findById(10);
+        Optional<Store> optionalStore = storeRepository.findById(20);
         Store store = optionalStore.get();
         assertNotNull(store);
 
@@ -53,12 +53,8 @@ class BookRepositoryTest {
         book.setGenre("Fantasy");
         book.setYear(2019);
         book.setStore(store);
-        try {
-            bookRepository.saveBook(book);
-        } catch (BookDoesNotExistException exp){
-            log.info(exp.getMessage());
-        }
-        assertThat(book.getId()).isNotNull();
+
+        assertDoesNotThrow(() -> bookRepository.saveBook(book));
         log.info("store and book info after saving --> {}", book.getStore());
     }
 
@@ -138,7 +134,6 @@ class BookRepositoryTest {
 
        assertThat(book1.getId()).isNotNull();
        assertThat(book2.getId()).isNotNull();
-       assertThat(store.getBookList());
     }
 
     @Test
@@ -182,18 +177,9 @@ class BookRepositoryTest {
 
         boolean book = bookRepository.existsById(4);
         assertThat(book).isTrue();
+        log.info("book -> {}", book);
         bookRepository.deleteById(4);
         assertThat(bookRepository.existsById(4)).isFalse();
-    }
-
-    @Test
-    public void deleteBookFromDatabaseIfBookExists(){
-        try {
-            assertThat(bookRepository.existsById(7)).isFalse();
-            bookRepository.deleteById(7);
-        }catch (Exception e){
-            log.info("Book does not exist exception was thrown --> {}", e.getMessage());
-        }
     }
 
 

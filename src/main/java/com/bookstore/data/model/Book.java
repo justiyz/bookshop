@@ -1,13 +1,18 @@
 package com.bookstore.data.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 //import javax.persistence.Entity;
 import javax.persistence.*;
 
 @Entity
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@ToString
 public class Book {
 
     @Id
@@ -23,10 +28,7 @@ public class Book {
 
     private Integer year;
 
-
-    @ManyToOne()
-    @ToString.Exclude
-    @JsonIgnore
+    @ManyToOne
     private Store store;
 
 
