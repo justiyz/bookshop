@@ -87,6 +87,13 @@ class StoreControllerTest {
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andReturn();
+    }
 
+    @Test
+    void testThatWeCanCallTheDeleteStoreByIdEndpoint() throws Exception {
+        this.mockMvc.perform(delete("/store/delete/20"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andReturn();
     }
 }

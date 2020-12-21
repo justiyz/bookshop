@@ -49,7 +49,7 @@ public class StoreServiceImpl implements StoreService {
             throw new StoreDoesNotExistException("store with the id" + store.getId()+ "does not exist");
         }
         if (store.getContactNo() != null){
-            existingStore.setContactNo(store.getLocation());
+            existingStore.setContactNo(store.getContactNo());
         }
         if (store.getLocation() != null){
             existingStore.setLocation(store.getLocation());
