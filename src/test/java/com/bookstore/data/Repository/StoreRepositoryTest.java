@@ -9,8 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,11 +70,8 @@ class StoreRepositoryTest {
     void testThatStoreShouldNotBeSavedWithoutContact(){
         store.setLocation("Greater Accra");
         store.setName("The Divine Bookstore");
-        try {
-            storeRepository.saveStore(store);
-        } catch (StoreDoesNotExistException ex){
-            ex.printStackTrace();
-        }
+
+        assertThrows( StoreDoesNotExistException.class, () -> storeRepository.saveStore(store));
         assertThat(store.getId()).isNull();
         log.info("saved store --> {}", store);
     }
@@ -98,11 +97,8 @@ class StoreRepositoryTest {
         store = optionalStore.get();
         store.setContactNo("123-456-345-56");
         store.setLocation("Madagascar");
-        try {
-            storeRepository.saveStore(store);
-        } catch (StoreDoesNotExistException ex){
-            log.info(ex.getMessage());
-        }
+
+        assertDoesNotThrow(() -> storeRepository.saveStore(store));
         assertThat(store.getId()).isNotNull();
         log.info("updated store --> {}", store);
     }
@@ -117,6 +113,8 @@ class StoreRepositoryTest {
     }
 
     @Test
+    @Transactional
+    @Rollback(value = false)
     void saveAndFindAllTheBooksInAStoreTest() throws BookDoesNotExistException {
         Optional<Store> optionalStore = storeRepository.findById(10);
         store = optionalStore.get();
@@ -140,16 +138,8 @@ class StoreRepositoryTest {
         bookRepository.saveBook(book1);
         assertThat(book1.getId()).isNotNull();
 
-//        store.addBooks(book);
-//        store.addBooks(book1);
-
-        try {
-            storeRepository.saveStore(store);
-        } catch (StoreDoesNotExistException exp){
-            log.info(exp.getMessage());
-        }
-
-//        assertThat(store.getBookList()).isNotEmpty();
+        assertDoesNotThrow( () -> storeRepository.saveStore(store));
+        assertThat(store.getBookList()).isNotEmpty();
         log.info("store details --> {}", store);
     }
 

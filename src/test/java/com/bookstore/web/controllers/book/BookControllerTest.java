@@ -87,7 +87,7 @@ class BookControllerTest {
         book.setTitle("Head First");
         book.setAuthor("Gang of Four");
         book.setGenre("Design Patterns");
-        book.setId(6);
+        book.setId(5);
 
         this.mockMvc.perform(post("/book/update")
                 .contentType("application/json")

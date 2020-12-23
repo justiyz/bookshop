@@ -24,7 +24,7 @@ public class Store {
 
     private String contactNo;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = false)
     @JsonIgnore
     @ToString.Exclude
     private List<Book> bookList;

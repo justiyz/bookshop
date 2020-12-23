@@ -23,23 +23,11 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Book saveBook(Book book) throws BookDoesNotExistException {
-        if (confirmBookBeforeSaving(book)){
-            bookRepository.save(book);
-        }
-        return book;
-    }
-
-    public boolean confirmBookBeforeSaving(Book book) throws BookDoesNotExistException {
         if(book == null){
             throw new BookDoesNotExistException("Book does not exist exception was thrown");
         }
-        if (book.getStore() == null){
-            throw new BookDoesNotExistException("Book has to be mapped to a store");
-        }
-        return true;
+        return bookRepository.save(book);
     }
-
-
 
     @Override
     public Book updateBook(Book book) throws BookDoesNotExistException {

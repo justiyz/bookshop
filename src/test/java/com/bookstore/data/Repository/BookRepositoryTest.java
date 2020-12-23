@@ -175,11 +175,11 @@ class BookRepositoryTest {
     @Test
     public void deleteBookFromDataBaseTest(){
 
-        boolean book = bookRepository.existsById(4);
+        boolean book = bookRepository.existsById(2);
         assertThat(book).isTrue();
         log.info("book -> {}", book);
-        bookRepository.deleteById(4);
-        assertThat(bookRepository.existsById(4)).isFalse();
+        bookRepository.deleteById(2);
+        assertThat(bookRepository.existsById(2)).isFalse();
     }
 
 

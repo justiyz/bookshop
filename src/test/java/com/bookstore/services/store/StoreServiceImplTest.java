@@ -62,7 +62,6 @@ class StoreServiceImplTest {
     @Test
     void mockTheUpdateStoreRepositoryTest(){
         when(storeRepository.save(store)).thenReturn(store);
-        store.setName("MockName");
         storeService.saveStore(store);
         verify(storeRepository, times(1)).save(store);
     }
